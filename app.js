@@ -11,6 +11,7 @@ const TICKER_PAIRS = ["EURUSD", "USDJPY", "USDCHF", "AUDUSD"];
 
 async function loadTicker() {
   const el = document.getElementById("ticker");
+  if (!el) return;
   try {
     const res = await fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR,JPY,CHF,AUD");
     const data = await res.json();

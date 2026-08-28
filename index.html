@@ -14,7 +14,38 @@
     <p class="subtitle">EUR/USD, USD/JPY, USD/CHF, AUD/USD — pullback strategy, 1:2/1:3 risk-reward, 100 KES risk per trade.</p>
   </header>
 
+  <section id="ticker" class="ticker-bar">
+    <p class="ticker-loading">Loading rates…</p>
+  </section>
+  <p class="ticker-note">Reference rates, updated once per trading day (ECB, ~16:00 CET) via Frankfurter — not live tick data. Use your broker's platform for actual trading prices.</p>
+
   <section id="stats" class="stats-grid"></section>
+
+  <section class="card strategy-card">
+    <h2>Strategy reference</h2>
+    <div class="strategy-block">
+      <h3>The setup: pullback in trend</h3>
+      <ol>
+        <li><strong>Trend context</strong> — price consistently above (buy) or below (sell) the 50-period EMA on the H4 chart, with clear higher-highs/higher-lows or lower-highs/lower-lows.</li>
+        <li><strong>Pullback</strong> — price retraces toward the EMA or a recent swing level, without breaking trend structure.</li>
+        <li><strong>Confirmation candle</strong> — a decisive reversal candle at the pullback zone, in the direction of the trend.</li>
+        <li><strong>Stop-loss</strong> — placed just beyond the swing high/low that defines the pullback.</li>
+        <li><strong>Target</strong> — 2–3x the stop distance, checked against nearby resistance/support for room to run.</li>
+        <li><strong>Position size</strong> — calculated backward from stop distance so risk is capped at 100 KES.</li>
+      </ol>
+      <p class="strategy-caution">If any one of these six isn't met, it's not a valid setup — sitting out is a correct outcome of the system, not a failure of it.</p>
+    </div>
+    <div class="strategy-block">
+      <h3>Daily reading</h3>
+      <ul class="reading-list">
+        <li><a href="https://www.forexfactory.com/calendar" target="_blank" rel="noopener">ForexFactory Economic Calendar</a> — check before every session for high-impact news that could invalidate a technical setup.</li>
+        <li><a href="https://www.dailyfx.com/market-news" target="_blank" rel="noopener">DailyFX Market News</a> — daily technical and fundamental commentary on majors.</li>
+        <li><a href="https://www.babypips.com/learn/forex" target="_blank" rel="noopener">BabyPips School of Pipsology</a> — free structured course covering trend, support/resistance, candlesticks, and risk management fundamentals.</li>
+        <li><a href="https://www.investopedia.com/forex-4689802" target="_blank" rel="noopener">Investopedia: Forex</a> — reference definitions and deeper dives on any concept that comes up.</li>
+        <li><a href="https://www.reuters.com/markets/currencies/" target="_blank" rel="noopener">Reuters Currencies</a> — macro news that moves USD, JPY, CHF, and AUD pairs.</li>
+      </ul>
+    </div>
+  </section>
 
   <section class="card">
     <h2>Log a new trade</h2>
