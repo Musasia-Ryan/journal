@@ -1,13 +1,51 @@
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let trades = [];
+
+// --- Ticker: reference rates for your four tracked pairs ---
+// Source: Frankfurter (ECB reference rates, no key required).
+// Updates once per trading day (~16:00 CET) — not intraday tick data.
+// To upgrade to true real-time (60s) ticks later, swap this fetch for a
+// paid provider (e.g. Twelve Data, ExchangeRate-API Pro) that requires an API key.
+const TICKER_PAIRS = ["EURUSD", "USDJPY", "USDCHF", "AUDUSD"];
+
+async function loadTicker() {
+  const el = document.getElementById("ticker");
+  try {
+    const res = await fetch("https://api.frankfurter.dev/v2/latest?base=USD&symbols=EUR,JPY,CHF,AUD");
+    const data = await res.json();
+    const r = data.rates;
+
+    const values = {
+      EURUSD: 1 / r.EUR,
+      USDJPY: r.JPY,
+      USDCHF: r.CHF,
+      AUDUSD: 1 / r.AUD,
+    };
+
+    el.innerHTML = TICKER_PAIRS.map((pair) => {
+      const val = values[pair];
+      const decimals = pair === "USDJPY" ? 3 : 5;
+      return `
+        <div class="ticker-item">
+          <span class="ticker-pair">${pair.slice(0, 3)}/${pair.slice(3)}</span>
+          <span class="ticker-value">${val.toFixed(decimals)}</span>
+        </div>`;
+    }).join("");
+  } catch (e) {
+    console.error("Ticker load error:", e);
+    el.innerHTML = '<p class="ticker-loading">Could not load rates right now.</p>';
+  }
+}
+
+loadTicker();
 
 function fmt(n) {
   return Number(n).toLocaleString("en-KE", { maximumFractionDigits: 2 });
 }
 
 async function loadTrades() {
-  const { data, error } = await supabase
+  const { data, error } = await sb
     .from("trades")
     .select("*")
     .order("created_at", { ascending: false });
@@ -23,7 +61,7 @@ async function loadTrades() {
 }
 
 async function addTrade(trade) {
-  const { error } = await supabase.from("trades").insert([trade]);
+  const { error } = await sb.from("trades").insert([trade]);
   if (error) {
     console.error("Error adding trade:", error);
     return false;
